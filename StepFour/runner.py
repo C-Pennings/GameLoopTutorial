@@ -34,6 +34,11 @@ class Game:
             self.player.update()
             self.player.render(self.screen)
 
+            self.spawningCounter += 1
+            if self.spawningCounter > self.spawningInterval + random.choice((-30, 30)):
+                self.spawner.add(self.spawningPos.copy())
+                self.spawningCounter = 0
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

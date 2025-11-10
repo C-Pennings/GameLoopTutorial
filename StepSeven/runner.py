@@ -32,9 +32,29 @@ class Game:
             self.screen.blit(self.ground, (0, 200))
             
             self.player.update()
-
+            if not self.exiting:
+                self.spawner.update()
             self.player.render(self.screen)
-
+            self.spawner.render(self.screen)
+            
+            if self.exiting: 
+                self.exitCounter += 1
+                if self.exitCounter >= self.exitInterval:
+                    pygame.quit()
+                    sys.exit()
+            
+            #insert spawning logic here
+            self.spawningCounter += 1
+            if self.spawningCounter > self.spawningInterval + random.choice((-30, 30)):
+                self.spawner.add(self.spawningPos.copy())
+                self.spawningCounter = 0
+            
+            #insert colliding logic here
+            for pos in self.spawner.pos:
+                if self.player.rect.colliderect(self.spawner.get_rect(pos)):
+                    if not self.exiting:
+                        print("You Lose")
+                    self.exiting = True 
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

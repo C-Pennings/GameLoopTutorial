@@ -32,8 +32,12 @@ class Game:
             self.screen.blit(self.ground, (0, 200))
             
             self.player.update()
+            if not self.exiting:
+                self.spawner.update()
             self.player.render(self.screen)
-
+            self.spawner.render(self.screen)
+            
+            #insert spawning logic here
             self.spawningCounter += 1
             if self.spawningCounter > self.spawningInterval + random.choice((-30, 30)):
                 self.spawner.add(self.spawningPos.copy())
